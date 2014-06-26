@@ -15,7 +15,7 @@ LogGen.prototype.getLogFormatList = function(){
 
 LogGen.prototype.getLogFormat = function(logFormatList){
 	//console.log("log Length : " + logFormatList.length);
-	return logFormatList[this.getRandomIndex(logFormatList.length)]+'\n';
+	return logFormatList[this.getRandomIndex(logFormatList.length)];
 };
 
 LogGen.prototype.getLogExpList = function(){
@@ -31,8 +31,6 @@ LogGen.prototype.getRegExp = function(regExp){
 };
 
 LogGen.prototype.getTime = function(timePattern){
-	//console.log(timePattern);
-	//console.log(strftime(timePattern));
 	return strftime(timePattern);
 };
 
@@ -46,17 +44,20 @@ LogGen.prototype.getLogMessage = function(){
 LogGen.prototype.generateMessage = function(logFormatList , logExpList){
 	
 	//choose (random) a sample message from a sample Log List.
-	var finalLogMessage = this.getLogFormat(logFormatList);
+	var logMessage = this.getLogFormat(logFormatList);
 
 	//replace sample-Log-time to currentTime (use all regular expression written in config file)
 	for(var count = 0 ; count < logExpList.length ; count++){
-		console.log(logExpList[count].token);
-		console.log(logExpList[count].replacement);
-		finalLogMessage = finalLogMessage.replace(this.getRegExp(logExpList[count].token), this.getTime(logExpList[count].replacement));
+
+		if(logExpList[count].type === "timestamp"){
+			logMessage = logMessage.replace(this.getRegExp(logExpList[count].token), this.getTime(logExpList[count].replacement));
+		}else{
+			logMessage = logMessage.replace(this.getRegExp(logExpList[count].token),  logExpList[count].replacement );
+		}
 	}
 	
-	//console.log("final logMessage : " + finalLogMessage);	
-	return finalLogMessage;
+	//console.log("final logMessage : " + logMessage);	
+	return logMessage;
 };
 
 LogGen.prototype.getRandomIndex = function(maxIndex){
