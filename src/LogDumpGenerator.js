@@ -1,8 +1,8 @@
 /*
  * 
- * LogGenerator.js
+ * LogDumpGenerator.js
  * 
- * This module is main module to execute LogGenerator
+ * This module is main module to execute LogDumpGenerator
  * 
  * 
  * - Parse application parameters ( TargetService(Log) name , interval time )
@@ -11,18 +11,18 @@
  *
  * 
  *
- * Log Generator USAGE :
+ * Log Dump Generator USAGE :
  * 
- * > node LogGenerator.js logType logInterval(ms)
- * > ex) node LogGenerator.js sdpRestLog 1000
+ * > node LogDumpGenerator.js logType configFile
+ * > ex) node LogGenerator.js sdpRestDumpLog logDump.conf
  * 
  * 
- * logType is Mandatory
- * logInterval is optional(DEFAULT : 1000)
+ * logType / configFile are Mandatory.
+ * 
  * Available logType :
- * 	1) sdpRestLog
- * 	2) sdpMenuLog
- * 	3) sdp3DKPOPLog
+ * 	1) sdpRestDumpLog
+ * 	2) sdpMenuDumpLog
+ * 	3) sdp3DKPOPDumpLog
  *
  * 
  * 
