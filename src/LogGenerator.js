@@ -1,17 +1,21 @@
 /*
  * 
  * LogGenerator.js
+ * 
  * This module is main module to execute LogGenerator
  * 
- * purpose
  * 
- * 
+ * - Parse Application parameters ( TargetService(Log) name , interval time )
+ * - Create LogGen instance based on TargetService.
+ * - Set Call-back(Logging) function interval.
  *
  *
  *
  * Log Generator USAGE :
+ * 
  * > node LogGenerator.js logType logInterval(ms)
  * > ex) node LogGenerator.js sdpRestLog 1000
+ * 
  * 
  * logType is Mandatory
  * logInterval is optional(DEFAULT : 1000)

@@ -1,8 +1,14 @@
 /*
  * 
+ * LogGen.js
+ * 
+ * This module generates Log Messages.
  * 
  * 
- * 
+ * - Construct needs sampleLogsformat-List (or sample Log files ) and Tokken-List to replace certain String or RegEXP.  
+ * - Generate a log Message which is one of sampleFormat or sampleFiles.
+ * - Replace timestamp or string in the generated message to the current Time/Date or replacement.
+ *
  */
 
 /*
@@ -24,6 +30,7 @@ function LogGen(logFormatList , logExpList){
 }
 
 
+
 /*
  * setLogFormatList
  * LogGen prototype
@@ -35,6 +42,7 @@ LogGen.prototype.setLogFormatList = function(logFormatList){
 };
 
 
+
 /*
  * getLogFormatList
  * LogGen prototype
@@ -42,6 +50,7 @@ LogGen.prototype.setLogFormatList = function(logFormatList){
 LogGen.prototype.getLogFormatList = function(){
 	return this.logFormatList;
 };
+
 
 
 /*
