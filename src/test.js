@@ -1,29 +1,77 @@
 require('date-utils');
 
 var today = new Date();
-var settingDay = new Date();
+var settingDay = new Date(0);
 //var todayDate = today.toFormat('YYYYMMDDHHMM');
 //var time = today.toFormat('HH:MM:SS');
 
-settingDay.setDate (today.getDate() - 10);
+//settingDay.setDate (today.getDate() - 10);
 
-console.log("today : "+today);
+var t = new Date(1980,1,3);
+var t2 = new Date();
+t2.setTime(t.getTime());
+console.log('kkkk' + t+'  , '+t2);
+t.setTime(0);
+console.log('kkkk' + t+'  , '+t2);
+t2.setTime(t.getTime());
+console.log('kkkk' + t+'  , '+t2);
+
+
+
+function SetTimeTest(newtime){
+	   var d, s;                  //Declare variables.
+	   d = new Date();            //Create Date object.
+	   d.setTime(newtime);        //Set time.
+	   s = "Current setting is ";
+	   s += d.toUTCString();
+	   return(s);                 //Return new setting.
+	}
+
+
+//console.log("today : "+today);
 console.log("settingDay : "+settingDay);
-console.log("today : "+today.toFormat('YYYYMMDDHHMM'));
-console.log("settingDay : "+settingDay.toFormat('YYYYMMDDHHMM'));
-console.log("today : "+today.toFormat('HH:MM:SS'));
+//console.log("today : "+today.toFormat('YYYYMMDDHHMM'));
+console.log("settingDay : "+settingDay.toFormat('YYYYMMDDHHMMSS'));
+//console.log("today : "+today.toFormat('HH:MM:SS'));
 console.log("settingDay : "+settingDay.toFormat('HH:MM:SS'));
 
+
+var t4 = new Date();
+
 for(var count = 0 ; count < 100 ; count++){
-	if(today > settingDay){
-		console.log("today : " + count);
-	}else{
-		console.log("settingDay : " + count);
-	}
 	
-	settingDay.setDate (settingDay.getDate() + 1);
-		
+	t4.addMinutes(2);
+	//settingDay.addMilliseconds(10000);
+	console.log("t4 : "+t4.toFormat('YYYYMMDDHHMISS'));
+	
 }
+
+//
+//t4.addMilliseconds(2000); // add milliseconds to existing time
+//console.log("111t4 : "+t4.toFormat('YYYYMMDDHHMMSS'));
+//t4.addSeconds(5); // add seconds to existing time
+//console.log("t4 : "+t4.toFormat('YYYYMMDDHHMMSS'));
+//t4.addMinutes(2); // add minutes to existing time
+//console.log("t4 : "+t4.toFormat('YYYYMMDDHHMMSS'));
+//t4.addHours(1); // add hours to existing time
+//console.log("t4 : "+t4.toFormat('YYYYMMDDHHMMSS'));
+//t4.addDays(2); // add days to existing time
+//console.log("t4 : "+t4.toFormat('YYYYMMDDHHMMSS'));
+//t4.addWeeks(3); // add weeks to existing time
+//console.log("t4 : "+t4.toFormat('YYYYMMDDHHMMSS'));
+//t4.addMonths(4); // add months to existing time
+//console.log("t4 : "+t4.toFormat('YYYYMMDDHHMMSS'));
+//t4.addYears(2); // add years to existing time
+//console.log("t4 : "+t4.toFormat('YYYYMMDDHHMMSS'));
+
+t4.addDays(-2); // add years to existing time
+console.log("t4 : "+t4.toFormat('YYYYMMDDHHMMSS'));
+console.log("t4 : "+t4.getTime());
+
+var t5 = new Date(02/13/1981);
+console.log("t5 : "+t5.toFormat('YYYYMMDDHHMMSS'));
+console.log("t5 : "+t5.getTime());
+
 /*
 require('date-utils');
 var config = require("./config.js");

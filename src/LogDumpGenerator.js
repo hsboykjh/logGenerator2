@@ -46,7 +46,8 @@
  */
 var Sample = require("./SampleFormat.js");
 var LogGen = require("./LogGen.js");
-
+var fileWriter = require("./fileWriter.js");
+require('date-utils');
 
 /*
  * Define const
@@ -131,6 +132,22 @@ function getLogInterval(){
 
 
 /*
+ * get Log Interval to generate ( Application's 2nd parameter ) - reference : Usage guide
+ *
+ * @return logInterval
+ * 
+ */
+function getDate(){
+	
+	var logInterval = process.argv[3];
+	
+	if(!logInterval || !logInterval.length ){
+		return DEFAULT_LOG_INTERVAL;
+	}
+	return logInterval;
+}
+
+/*
  * Main function to execute Log Generator
  * 
  */
@@ -156,7 +173,20 @@ function executeLogGenerator(){
 		}
 		
 		//set TimeInterval and register callBack-function to write LogMessages to file.
-		setInterval( function(){ console.log(logGen.getLogMessage());} , logInterval);
+		//setInterval( function(){ console.log(logGen.getLogMessage());} , logInterval);
+		var startDate = new Date();
+		var endDate = new Date();
+		startDate.addDays(-2);
+		
+		//create FileWriter
+		var FileWriter = new fileWriter();
+		
+		while(startDate.getTime() < endDate.getTime()){
+			startDate.addMilliseconds(logInterval);
+			console.log(logGen.getLogFormat(logGen.getLogFormatList()));
+			FileWriter.writeLogMessage( "sdplog" , "/Users/apple/git/logGenerator2" , startDate ,logGen.getLogFormat(logGen.getLogFormatList()));
+		}
+		//FileWriter.writeLogMessage( Config.getLogType() , Config.getLogPath() , LogGen.getLogMessage());
 		
 	} catch (exception) {
 		console.log(exception.name + " : " + exception.message );
