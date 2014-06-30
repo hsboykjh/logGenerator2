@@ -22,7 +22,6 @@
  * Available logType :
  * 	1) sdpRestDumpLog
  * 	2) sdpMenuDumpLog
- * 	3) sdp3DKPOPDumpLog
  *
  * 
  * 
@@ -46,14 +45,14 @@
  */
 var Sample = require("./SampleFormat.js");
 var LogGen = require("./LogGen.js");
-var fileWriter = require("./fileWriter.js");
+var fs = require('fs');
 require('date-utils');
 
 /*
  * Define const
  */
 var DEFAULT_LOG_INTERVAL = "1000";
-
+var DEFAULT_LOG_DUMP_PERIOD_DAY = "30";
 
 /*
  * Log Generator (sequencial Log Message) Usage 
@@ -62,14 +61,13 @@ var DEFAULT_LOG_INTERVAL = "1000";
 function printUsage(){
 	console.log("===================================================");
 	console.log("Log Generator USAGE");
-	console.log("> node LogGenerator.js logType logInterval(ms)");
+	console.log("> node LogGenerator.js logType logPath logInterval(ms) ");
 	console.log("> ex) node LogGenerator.js sdpRestLog 1000\n");
-	console.log("logType is Mandatory\n");
+	console.log("logType and logPath are Mandatory\n");
 	console.log("logInterval is optional(DEFAULT : 1000)\n");
 	console.log("Available logType : ");
 	console.log("	1) sdpRestLog");
-	console.log("	2) sdpMenuLog");
-	console.log("	3) sdp3DKPOPLog\n\n");
+	console.log("	2) sdpMenuLog\n\n");
 	console.log("If LogMessage are written on the filesystem, Unix stdout/pipeline command would be helpful.\n");
 	console.log("shell script example : \n");
 	console.log(" #!/bin/bash");
@@ -112,6 +110,23 @@ function getServiceNamge(){
 }
 
 
+/*
+ * get Log Interval to generate ( Application's 3rd parameter ) - reference : Usage guide
+ *
+ * @return logInterval
+ * 
+ */
+function getLogInterval(){
+	
+	var logInterval = process.argv[4];
+	
+	if(!logInterval || !logInterval.length ){
+		throw new UserException("Invalid Param");
+		return DEFAULT_LOG_INTERVAL;
+	}
+	return logInterval;
+}
+
 
 /*
  * get Log Interval to generate ( Application's 2nd parameter ) - reference : Usage guide
@@ -119,14 +134,14 @@ function getServiceNamge(){
  * @return logInterval
  * 
  */
-function getLogInterval(){
+function getLogPath(){
 	
-	var logInterval = process.argv[3];
+	var logPath = process.argv[3];
 	
-	if(!logInterval || !logInterval.length ){
-		return DEFAULT_LOG_INTERVAL;
+	if(!logPath || !logPath.length ){
+		throw new UserException("Invalid Param");
 	}
-	return logInterval;
+	return logPath;
 }
 
 
@@ -156,14 +171,12 @@ function executeLogGenerator(){
 	try{
 		var serviceName = getServiceNamge();
 		var logInterval = getLogInterval();
+		var logPath = getLogPath();
 	
 		//create LogGen instance ( param : a predefined Log Sample format List , TokenList)
 		switch(serviceName){
 			case 'sdpRestLog' :
 				var logGen = new LogGen(Sample.getSdpRestLogFormat(), Sample.getSdpRestLogToken());
-				break;
-			case 'sdp3DKPOPLog' :
-				var logGen = new LogGen(Sample.getSdp3DKPOPLogFormat(), Sample.getSdp3DKPOPLogToken());
 				break;
 			case 'sdpMenuLog' :
 				var logGen = new LogGen(Sample.getSdpMenuLogFormat(), Sample.getSdpMenuLogToken());
@@ -174,24 +187,26 @@ function executeLogGenerator(){
 		
 		//set TimeInterval and register callBack-function to write LogMessages to file.
 		//setInterval( function(){ console.log(logGen.getLogMessage());} , logInterval);
-		var startDate = new Date();
-		var endDate = new Date();
-		startDate.addDays(-2);
+		var startTime = new Date().addDays(-Number(DEFAULT_LOG_DUMP_PERIOD_DAY)).getTime();;
+		var endTime = new Date().getTime();
 		
-		//create FileWriter
-		var FileWriter = new fileWriter();
+		//startDate.addDays(-Number(DEFAULT_LOG_DUMP_PERIOD_DAY));
+		//var startTime = startDate.getTime();
+		//var endTime = endDate.getTime()
 		
-		while(startDate.getTime() < endDate.getTime()){
-			startDate.addMilliseconds(logInterval);
-			console.log(logGen.getLogFormat(logGen.getLogFormatList()));
-			FileWriter.writeLogMessage( "sdplog" , "/Users/apple/git/logGenerator2" , startDate ,logGen.getLogFormat(logGen.getLogFormatList()));
+		while(startTime < endTime){
+			startTime += Number(logInterval);
+			var fileFullPath = logPath + '\\' + serviceName +  new Date(startTime).toFormat('YYYYMMDD') + '.log';
+			var logMessage = logGen.getLogFormat(logGen.getLogFormatList()) + '\n';
+			fs.appendFileSync(fileFullPath, logMessage);
 		}
+		
+		console.log("Log Dump Generator completed");
 		//FileWriter.writeLogMessage( Config.getLogType() , Config.getLogPath() , LogGen.getLogMessage());
 		
 	} catch (exception) {
 		console.log(exception.name + " : " + exception.message );
 		printUsage();
-		//process.exit(0);
 	}
 }
 

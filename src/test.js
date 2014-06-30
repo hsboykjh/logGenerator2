@@ -1,4 +1,34 @@
+var stream = require('stream');
+var fs = require('fs');
+
+
+var duplexStream = new stream.Duplex;
+var stdout = process.stdout;
+var writableStream = fs.createWriteStream('C:\\Users\\admin\\logGenerator2\\logGenerator2\\logs\\file.txt' , { 'flags': 'a'} );
+var eventCount = 10000;
+
+duplexStream._read = function(size) {
+  // _write 메소드 이전에 실행된다.
+};
+
+duplexStream._write = function(chunk, encoding, cb) {
+
+  this.push(chunk.toString().replace(/\d{2}:\d{2}:\d{2}/, "TIME").replace(/\d{12}/, "YEAR-MONTH-DAY"));
+  cb();
+};
+
+duplexStream.end = function() {
+  console.log('end');
+};
+process.stdin
+  .pipe(duplexStream)
+  .pipe(stdout)
+  //.pipe(writableStream)
+
+
+/*
 require('date-utils');
+var fs = require('fs');
 
 var today = new Date();
 var settingDay = new Date(0);
@@ -16,6 +46,11 @@ console.log('kkkk' + t+'  , '+t2);
 t2.setTime(t.getTime());
 console.log('kkkk' + t+'  , '+t2);
 
+
+fs.writeFile('C:\\Users\\admin\\logGenerator2\\logGenerator2\\logs\\test.log', 'Hello World', function(err) {
+	  if(err) throw err;
+	  console.log('File write completed');
+	});
 
 
 function SetTimeTest(newtime){
@@ -167,4 +202,67 @@ try {
 */
 
 
+/*fs = require('fs');
+
+		
+target = 'C:\\Users\\admin\\logGenerator2\\logGenerator2\\logs\\test.log';
+dest = fs.createWriteStream(target);
+
+buf = new Buffer(100);
+var msg = "1st Korea Node.js Conference\\ n";
+buf.write( msg, 0 );
+dest.write( buf );
+dest.end()
+
+*/
+/*
+var fs = require('fs');
+var stream = fs.createWriteStream("C:\\Users\\admin\\logGenerator2\\logGenerator2\\logs\\my_file.txt", {'flags': 'a'});
+console.log(stream);
+stream.once('open', function(fd) {
+  stream.write("888My first row\n");
+  stream.write("777My second row\n");
+  //stream.end();
+});
+
+console.log("END");
+*/
+/*
+var HashMap = require('hashmap').HashMap;
+var fs = require('fs');
+
+var map = new HashMap();
+
+var stream = fs.createWriteStream("./test1.txt");
+//this.addFileStreamMap(fileFullPath, stream);
+map.set("./test1.txt","1234");
+map.set("./test1.txt","5678");
+console.log(map.get("./test1.txt")); // --> "some value"
+*/
+
+/*
+//Add key, value pairs into the map with random strings
+for (var i = 0; i < 10; i++) {
+ var item =generateRandomString();
+ var value = generateRandomString();
+ map[item] = value;
+};
+
+//Output every key, value pair onto the screen
+for (var i in map) {
+ console.log("Key: " + i + ", Value: " + map[i]);
+}
+
+//The function required for generating random strings
+function generateRandomString()
+{
+ var randomString = "";
+ var randomStringSource = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+ for( var i=0; i < 5; i++ ){
+     randomString += randomStringSource.charAt(Math.floor(Math.random() * randomStringSource.length));
+ }
+
+ return randomString;
+}*/
 

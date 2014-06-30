@@ -68,7 +68,6 @@ function printUsage(){
 	console.log("Available logType : ");
 	console.log("	1) sdpRestLog");
 	console.log("	2) sdpMenuLog");
-	console.log("	3) sdp3DKPOPLog\n\n");
 	console.log("If LogMessage are written on the filesystem, Unix stdout/pipeline command would be helpful.\n");
 	console.log("shell script example : \n");
 	console.log(" #!/bin/bash");
@@ -144,9 +143,6 @@ function executeLogGenerator(){
 		switch(serviceName){
 			case 'sdpRestLog' :
 				var logGen = new LogGen(Sample.getSdpRestLogFormat(), Sample.getSdpRestLogToken());
-				break;
-			case 'sdp3DKPOPLog' :
-				var logGen = new LogGen(Sample.getSdp3DKPOPLogFormat(), Sample.getSdp3DKPOPLogToken());
 				break;
 			case 'sdpMenuLog' :
 				var logGen = new LogGen(Sample.getSdpMenuLogFormat(), Sample.getSdpMenuLogToken());

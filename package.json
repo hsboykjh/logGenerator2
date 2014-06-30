@@ -8,7 +8,7 @@
   },
   "repository": "",
   "keywords": [
-    "node.js",
+    "node.js"
   ],
   "author": "",
   "license": "MIT",
@@ -16,6 +16,7 @@
   "dependencies":{
 	  "date-utils": "1.2.15",
 	  "nodeunit": ">=0.9.0",
-	  "strftime": ">=0.8.0"
+	  "strftime": ">=0.8.0",
+	  "hashmap": ">=1.0.0"
   }
 }
