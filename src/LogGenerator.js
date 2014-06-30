@@ -5,7 +5,7 @@
  * This module is main module to execute LogGenerator
  * 
  * 
- * - Parse application parameters ( TargetService(Log) name , interval time )
+ * - Parse application parameters ( config file name )
  * - Create LogGen instance based on TargetService.
  * - Set Call-back(Logging - Stdout) function interval.
  *
@@ -13,13 +13,12 @@
  *
  * Log Generator USAGE :
  * 
- * > node LogGenerator.js logType logInterval(ms)
- * > ex) node LogGenerator.js sdpRestLog 1000
+ * > node LogGenerator.js configFile
+ * > ex) node LogGenerator.js sdpRestLog.conf
  * 
  * 
- * logType is Mandatory
- * logInterval is optional(DEFAULT : 1000)
- * Available logType :
+ * serviceName and logInterval(ms) are Mandatory
+ * Available serviceName :
  * 	1) sdpRestLog
  * 	2) sdpMenuLog
  *
@@ -34,7 +33,7 @@
  *  FILE="serviceName$NOW.log"
  *  
  * run shell script
- * > node ./src/LogGenerator.js serviceName logInterval > /to/dst/path/$FILE
+ * > node ./src/LogGenerator.js config.conf > /to/dst/path/$FILE
  * 
  * 
  */
@@ -46,20 +45,16 @@
 var LogGen = require("./LogGen.js");
 var Config = require("./Config.js");
 
-/*
- * Define const
- */
-var DEFAULT_LOG_INTERVAL = "1000";
 
 
 /*
- * Log Generator (sequencial Log Message) Usage 
+ * Log Generator (sequencial Log Messages) Usage 
  *
  */
 function printUsage(){
 	console.log("===================================================");
 	console.log("Log Generator USAGE");
-	console.log("> node LogGenerator.js logType logInterval(ms)");
+	console.log("> node LogGenerator.js configFile");
 	console.log("> ex) node LogGenerator.js sdpRestLog.conf\n");
 	console.log("ServiceName and logInterval(ms) are Mandatory\n");
 	console.log("Available ServiceName : ");
@@ -73,7 +68,7 @@ function printUsage(){
 	console.log(" NOW=$(date +\"%Y%m%d\")");
 	console.log(" FILE=\"serviceName$NOW.log\"\n\n");
 	console.log("run shell script");
-	console.log("> node ./src/LogGenerator.js serviceName logInterval > /to/dst/path/$FILE\n\n");
+	console.log("> node ./src/LogGenerator.js config.conf > /to/dst/path/$FILE\n\n");
 	console.log("===================================================");
 }
 

@@ -18,7 +18,7 @@
  * > ex) node LogGenerator.js sdpRestLog.conf
  * 
  * 
- * logType / logPath are Mandatory.
+ * ServiceName,logPath and logInterval are Mandatory.
  * 
  * Available service :
  * 	1) sdpRestLog
