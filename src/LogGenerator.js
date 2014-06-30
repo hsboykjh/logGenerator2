@@ -46,7 +46,7 @@
  */
 var Sample = require("./SampleFormat.js");
 var LogGen = require("./LogGen.js");
-
+var Config = require("./Config.js");
 
 /*
  * Define const
@@ -86,45 +86,9 @@ function printUsage(){
  * @param message
  * 
  */
-function UserException(message) {
+function exception(message) {
 	this.message = message;
-	this.name = "UserException";
-}
-
-
-
-/*
- * get Service Name ( Application's 1st parameter ) - reference : Usage guide
- *
- * @return serviceName
- * 
- */
-function getServiceNamge(){
-	var serviceName = process.argv[2];
-	
-	//console.log(typeof(serviceName));
-	if(!serviceName || !serviceName.length ){		
-		throw new UserException("Invalid Param");
-	}
-	return serviceName;
-}
-
-
-
-/*
- * get Log Interval to generate ( Application's 2nd parameter ) - reference : Usage guide
- *
- * @return logInterval
- * 
- */
-function getLogInterval(){
-	
-	var logInterval = process.argv[3];
-	
-	if(!logInterval || !logInterval.length ){
-		return DEFAULT_LOG_INTERVAL;
-	}
-	return logInterval;
+	this.name = "exception";
 }
 
 
@@ -136,8 +100,12 @@ function getLogInterval(){
 function executeLogGenerator(){
 
 	try{
-		var serviceName = getServiceNamge();
-		var logInterval = getLogInterval();
+		
+		//create configuration (parameter config-file name (ex: SDPLog.conf, WebOSLog.conf)) 
+		var config = new Config(process.argv[2]);
+		
+		var serviceName = config.getServiceName();
+		var logInterval = config.getLogInterval();
 	
 		//create LogGen instance ( param : a predefined Log Sample format List , TokenList)
 		switch(serviceName){
@@ -148,7 +116,7 @@ function executeLogGenerator(){
 				var logGen = new LogGen(Sample.getSdpMenuLogFormat(), Sample.getSdpMenuLogToken());
 				break;
 			default :
-				throw new UserException("Invalid seviceName : " + serviceName);
+				throw new exception("Invalid seviceName : " + serviceName);
 		}
 		
 		//set TimeInterval and register callBack-function to write LogMessages to file.
