@@ -5,9 +5,9 @@
  * This module generates Log Messages.
  * 
  * 
- * - Construct needs sampleLogsformat-List (or sample Log files ) and Tokken-List to replace certain String or RegEXP.  
+ * - Construct needs sampleLogsformat-List (or sample Log files ) and Token-List to replace certain String or RegEXP.  
  * - Generate a log Message which is one of sampleFormat or sampleFiles.
- * - Replace timestamp or string in the generated message to the current Time/Date or replacement.
+ * - Replace time-stamp or string in the generated messages to the current Time/Date or replacement information.
  *
  */
 

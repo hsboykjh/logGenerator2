@@ -22,10 +22,9 @@
  * Available logType :
  * 	1) sdpRestLog
  * 	2) sdpMenuLog
- * 	3) sdp3DKPOPLog
  *
  * 
- * 
+ * Log Generator generate logMessages and print the messages to the stdout
  * If LogMessage are written on the filesystem, Unix stdout/pipeline command would be helpful. 
  * 
  * shell script example : 
@@ -44,7 +43,6 @@
 /*
  * Module dependencies.
  */
-var Sample = require("./SampleFormat.js");
 var LogGen = require("./LogGen.js");
 var Config = require("./Config.js");
 
@@ -62,12 +60,13 @@ function printUsage(){
 	console.log("===================================================");
 	console.log("Log Generator USAGE");
 	console.log("> node LogGenerator.js logType logInterval(ms)");
-	console.log("> ex) node LogGenerator.js sdpRestLog 1000\n");
-	console.log("logType is Mandatory\n");
-	console.log("logInterval is optional(DEFAULT : 1000)\n");
-	console.log("Available logType : ");
+	console.log("> ex) node LogGenerator.js sdpRestLog.conf\n");
+	console.log("ServiceName and logInterval(ms) are Mandatory\n");
+	console.log("Available ServiceName : ");
 	console.log("	1) sdpRestLog");
 	console.log("	2) sdpMenuLog");
+	console.log("\n\n");
+	console.log("Log Generator generate logMessages and print the messages to the stdout");
 	console.log("If LogMessage are written on the filesystem, Unix stdout/pipeline command would be helpful.\n");
 	console.log("shell script example : \n");
 	console.log(" #!/bin/bash");
@@ -110,10 +109,10 @@ function executeLogGenerator(){
 		//create LogGen instance ( param : a predefined Log Sample format List , TokenList)
 		switch(serviceName){
 			case 'sdpRestLog' :
-				var logGen = new LogGen(Sample.getSdpRestLogFormat(), Sample.getSdpRestLogToken());
+				var logGen = new LogGen(config.getLogFormat(), config.getLogToken());
 				break;
 			case 'sdpMenuLog' :
-				var logGen = new LogGen(Sample.getSdpMenuLogFormat(), Sample.getSdpMenuLogToken());
+				var logGen = new LogGen(config.getLogFormat(), config.getLogToken());
 				break;
 			default :
 				throw new exception("Invalid seviceName : " + serviceName);

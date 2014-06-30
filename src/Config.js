@@ -1,3 +1,15 @@
+/*
+ * 
+ * Config.js
+ * 
+ * This module read config-files
+ * 
+ * 
+ * - Construct needs config-file path/name
+ *
+ */
+
+
 var fs = require('fs');
 
 function Config(configFileName){
@@ -35,9 +47,9 @@ Config.prototype.getLogFormat = function(){
 	return this.configuration.logFormat;
 };
 
-Config.prototype.getLogExp = function(){
+Config.prototype.getLogToken = function(){
 	//console.log(this.configuration.logExp);
-	return this.configuration.logExp;
+	return this.configuration.logToken;
 };
 
 module.exports = Config;

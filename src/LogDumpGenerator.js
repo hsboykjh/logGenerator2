@@ -7,7 +7,8 @@
  * 
  * - Parse application parameter ( configFile name )
  * - Create the LogGen instance based on the targetService.
- * - calculate
+ * - Calculate millisecond start/end logging
+ * - Write logMessages on the local file system 
  *
  * 
  *
@@ -19,7 +20,7 @@
  * 
  * logType / logPath are Mandatory.
  * 
- * Available logType :
+ * Available service :
  * 	1) sdpRestLog
  * 	2) sdpMenuLog
  *
@@ -31,7 +32,6 @@
 /*
  * Module dependencies.
  */
-var Sample = require("./SampleFormat.js");
 var LogGen = require("./LogGen.js");
 var fs = require('fs');
 var Config = require("./Config.js");
@@ -50,11 +50,10 @@ var DEFAULT_LOG_DUMP_PERIOD_DAY = "30";
 function printUsage(){
 	console.log("===================================================");
 	console.log("Log Generator USAGE");
-	console.log("> node LogGenerator.js logType logPath logInterval(ms) ");
-	console.log("> ex) node LogGenerator.js sdpRestLog 1000\n");
-	console.log("logType and logPath are Mandatory\n");
-	console.log("logInterval is optional(DEFAULT : 1000)\n");
-	console.log("Available logType : ");
+	console.log("> node LogGenerator.js configFile ");
+	console.log("> ex) node LogGenerator.js sdpRestLog.conf\n");
+	console.log("ServiceName,logPath and logInterval are Mandatory\n");
+	console.log("Available ServiceName : ");
 	console.log("	1) sdpRestLog");
 	console.log("	2) sdpMenuLog\n\n");
 }
@@ -92,10 +91,10 @@ function executeLogGenerator(){
 		//create LogGen instance ( param : a predefined Log Sample format List , TokenList)
 		switch(serviceName){
 			case 'sdpRestLog' :
-				var logGen = new LogGen(Sample.getSdpRestLogFormat(), Sample.getSdpRestLogToken());
+				var logGen = new LogGen(config.getLogFormat(), config.getLogToken());
 				break;
 			case 'sdpMenuLog' :
-				var logGen = new LogGen(Sample.getSdpMenuLogFormat(), Sample.getSdpMenuLogToken());
+				var logGen = new LogGen(config.getLogFormat(), config.getLogToken());
 				break;
 			default :
 				throw new exception("Invalid seviceName : " + serviceName);
