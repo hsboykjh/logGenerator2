@@ -157,7 +157,6 @@ function executeLogGenerator(){
 	} catch (exception) {
 		console.log(exception.name + " : " + exception.message );
 		printUsage();
-		//process.exit(0);
 	}
 }
 

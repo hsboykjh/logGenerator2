@@ -17,24 +17,12 @@
  * > ex) node LogGenerator.js sdpRestDumpLog logDump.conf
  * 
  * 
- * logType / configFile are Mandatory.
+ * logType / logPath are Mandatory.
  * 
  * Available logType :
- * 	1) sdpRestDumpLog
- * 	2) sdpMenuDumpLog
+ * 	1) sdpRestLog
+ * 	2) sdpMenuLog
  *
- * 
- * 
- * If LogMessage are written on the filesystem, Unix stdout/pipeline command would be helpful. 
- * 
- * shell script example : 
- * 
- *  #!/bin/bash
- *  NOW=$(date +"%Y%m%d")
- *  FILE="serviceName$NOW.log"
- *  
- * run shell script
- * > node ./src/LogGenerator.js serviceName logInterval > /to/dst/path/$FILE
  * 
  * 
  */
@@ -55,7 +43,7 @@ var DEFAULT_LOG_INTERVAL = "1000";
 var DEFAULT_LOG_DUMP_PERIOD_DAY = "30";
 
 /*
- * Log Generator (sequencial Log Message) Usage 
+ * Log Dump Generator (Log Message) Usage 
  *
  */
 function printUsage(){
@@ -68,14 +56,6 @@ function printUsage(){
 	console.log("Available logType : ");
 	console.log("	1) sdpRestLog");
 	console.log("	2) sdpMenuLog\n\n");
-	console.log("If LogMessage are written on the filesystem, Unix stdout/pipeline command would be helpful.\n");
-	console.log("shell script example : \n");
-	console.log(" #!/bin/bash");
-	console.log(" NOW=$(date +\"%Y%m%d\")");
-	console.log(" FILE=\"serviceName$NOW.log\"\n\n");
-	console.log("run shell script");
-	console.log("> node ./src/LogGenerator.js serviceName logInterval > /to/dst/path/$FILE\n\n");
-	console.log("===================================================");
 }
 
 
@@ -110,23 +90,6 @@ function getServiceNamge(){
 }
 
 
-/*
- * get Log Interval to generate ( Application's 3rd parameter ) - reference : Usage guide
- *
- * @return logInterval
- * 
- */
-function getLogInterval(){
-	
-	var logInterval = process.argv[4];
-	
-	if(!logInterval || !logInterval.length ){
-		throw new UserException("Invalid Param");
-		return DEFAULT_LOG_INTERVAL;
-	}
-	return logInterval;
-}
-
 
 /*
  * get Log Interval to generate ( Application's 2nd parameter ) - reference : Usage guide
@@ -144,6 +107,23 @@ function getLogPath(){
 	return logPath;
 }
 
+
+/*
+ * get Log Interval to generate ( Application's 3rd parameter ) - reference : Usage guide
+ *
+ * @return logInterval
+ * 
+ */
+function getLogInterval(){
+	
+	var logInterval = process.argv[4];
+	
+	if(!logInterval || !logInterval.length ){
+		throw new UserException("Invalid Param");
+		return DEFAULT_LOG_INTERVAL;
+	}
+	return logInterval;
+}
 
 
 /*
@@ -185,14 +165,9 @@ function executeLogGenerator(){
 				throw new UserException("Invalid seviceName : " + serviceName);
 		}
 		
-		//set TimeInterval and register callBack-function to write LogMessages to file.
-		//setInterval( function(){ console.log(logGen.getLogMessage());} , logInterval);
+		
 		var startTime = new Date().addDays(-Number(DEFAULT_LOG_DUMP_PERIOD_DAY)).getTime();;
 		var endTime = new Date().getTime();
-		
-		//startDate.addDays(-Number(DEFAULT_LOG_DUMP_PERIOD_DAY));
-		//var startTime = startDate.getTime();
-		//var endTime = endDate.getTime()
 		
 		while(startTime < endTime){
 			startTime += Number(logInterval);
@@ -202,7 +177,6 @@ function executeLogGenerator(){
 		}
 		
 		console.log("Log Dump Generator completed");
-		//FileWriter.writeLogMessage( Config.getLogType() , Config.getLogPath() , LogGen.getLogMessage());
 		
 	} catch (exception) {
 		console.log(exception.name + " : " + exception.message );
