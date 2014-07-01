@@ -24,7 +24,7 @@
  *
  * 
  * Log Generator generate logMessages and print the messages to the stdout
- * If LogMessage are written on the filesystem, Unix stdout/pipeline command would be helpful. 
+ * If LogMessages are written on the file system, Unix stdout/pipeline command would be helpful. 
  * 
  * shell script example : 
  * 
@@ -62,7 +62,7 @@ function printUsage(){
 	console.log("	2) sdpMenuLog");
 	console.log("\n\n");
 	console.log("Log Generator generate logMessages and print the messages to the stdout");
-	console.log("If LogMessage are written on the filesystem, Unix stdout/pipeline command would be helpful.\n");
+	console.log("If LogMessages are written on the file system, Unix stdout/pipeline command would be helpful.\n");
 	console.log("shell script example : \n");
 	console.log(" #!/bin/bash");
 	console.log(" NOW=$(date +\"%Y%m%d\")");
