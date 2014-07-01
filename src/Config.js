@@ -43,6 +43,11 @@ Config.prototype.getLogFileType = function(){
 	return this.configuration.logFileType;
 };
 
+Config.prototype.getLogOutType = function(){
+	return this.configuration.logOutType;
+};
+
+
 Config.prototype.getLogFormat = function(){
 	return this.configuration.logFormat;
 };

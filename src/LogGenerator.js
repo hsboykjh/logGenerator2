@@ -44,8 +44,8 @@
  */
 var LogGen = require("./LogGen.js");
 var Config = require("./Config.js");
-
-
+require('date-utils');
+var fs = require('fs');
 
 /*
  * Log Generator (sequencial Log Messages) Usage 
@@ -114,7 +114,15 @@ function executeLogGenerator(){
 		}
 		
 		//set TimeInterval and register callBack-function to write LogMessages to file.
-		setInterval( function(){ console.log(logGen.getLogMessage());} , logInterval);
+		if(config.getLogOutType() === "file"){
+			setInterval( function(){ 
+				var fileFullPath = config.getLogPath()+'\\'+ config.getServiceName() + new Date().toFormat('YYYYMMDD'); + '.log';
+				//write Logs to local file system
+				fs.appendFileSync(fileFullPath, logGen.getLogMessage() + '\n');} , logInterval);
+		}else{
+			setInterval( function(){ console.log(logGen.getLogMessage());} , logInterval);
+		}
+		
 		
 	} catch (exception) {
 		console.log(exception.name + " : " + exception.message );
