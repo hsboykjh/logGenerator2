@@ -1,5 +1,46 @@
 var stream = require('stream');
 var fs = require('fs');
+var argv = require('yargs').argv;
+
+
+
+
+console.log("start");
+console.log(argv);
+console.log(argv.f);
+console.log(argv.i);
+console.log(argv.s);
+console.log(argv.e);
+console.log(argv._);
+
+
+//
+//#!/bin/sh
+//
+//SERVICENAME=sdpRestLog
+//INTERVAL=1000
+//FROMDATE=2014-07-01
+//TODATE=2014-07-02
+//
+//#FROMTIME=$(date +%Y/%m/%d -d $FROMDATE)
+//#TOTIME=$(date +%Y%m%d -d $TODATE)
+//
+//FROMTIME=20140701
+//TOTIME=20140702
+//DURATION=`expr $TOTIME - $FROMTIME`
+//
+//echo $TOTIME - $FROMTIME : $DURATION
+//
+//
+//for((i=0 ; i < $DURATION; i++)); do
+//	echo jihoon $i
+//	CURRENTDATE=`expr $FROMTIME - $i`
+//	FILENAME=$SERVICENAME$CURRENTDATE.log
+//	echo $FILENAME
+//	
+//	./test > ./logs/$FILENAME && tar zcf ./logs/$FILENAME.tar.gz ./logs/$FILENAME
+//done
+
 
 
 var duplexStream = new stream.Duplex;
@@ -8,7 +49,6 @@ var writableStream = fs.createWriteStream('C:\\Users\\admin\\logGenerator2\\logG
 var eventCount = 10000;
 
 duplexStream._read = function(size) {
-  // _write 메소드 이전에 실행된다.
 };
 
 duplexStream._write = function(chunk, encoding, cb) {
@@ -135,7 +175,7 @@ for(var count = 0 ; count < listLogExp.length ; count++){
 
 
 console.log(aaa.replace(/(.+)\.html/,"\\$1"));
-//결과 : "\korea"
+//寃곌낵 : "\korea"
 
 //var timestamp = this.getTimeStamp();
 var todayDate = new Date().toFormat('YYYYMMDDHHMM');
