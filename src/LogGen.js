@@ -84,9 +84,18 @@ LogGen.prototype.getLogExpList = function(){
  * 
  */
 LogGen.prototype.getTimeStamp = function(){
-	return new Date().getTime();
+	return this.currentTimeStamp;
 };
 
+
+/*
+ * getTimeStamp
+ * LogGen prototype
+ * 
+ */
+LogGen.prototype.setTimeStamp = function(timeStamp){
+	this.currentTimeStamp = timeStamp;
+};
 
 
 /*
@@ -108,8 +117,8 @@ LogGen.prototype.getRegExp = function(regExp){
  * 
  * @param timePattern
  */
-LogGen.prototype.getTime = function(timePattern){
-	return strftime(timePattern);
+LogGen.prototype.getTime = function(timePattern , currentTime){
+	return strftime(timePattern , new Date(currentTime));
 };
 
 
@@ -144,7 +153,7 @@ LogGen.prototype.generateMessage = function(logFormatList , logExpList){
 	for(var count = 0 ; count < logExpList.length ; count++){
 
 		if(logExpList[count].type === "timestamp"){
-			logMessage = logMessage.replace(this.getRegExp(logExpList[count].token), this.getTime(logExpList[count].replacement));
+			logMessage = logMessage.replace(this.getRegExp(logExpList[count].token), this.getTime(logExpList[count].replacement , this.getTimeStamp()));
 		}else{
 			logMessage = logMessage.replace(this.getRegExp(logExpList[count].token),  logExpList[count].replacement );
 		}

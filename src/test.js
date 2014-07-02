@@ -306,3 +306,13 @@ function generateRandomString()
  return randomString;
 }*/
 
+
+  //set TimeInterval and register callBack-function to write LogMessages to file.
+		/*if(config.getLogOutType() === "file"){
+			setInterval( function(){ 
+				var fileFullPath = config.getLogPath()+'\\'+ config.getServiceName() + new Date().toFormat('YYYYMMDD'); + '.log';
+				//write Logs to local file system
+				fs.appendFileSync(fileFullPath, logGen.getLogMessage() + '\n');} , logInterval);
+		}else{
+			setInterval( function(){ console.log(logGen.getLogMessage());} , logInterval);
+}*/
