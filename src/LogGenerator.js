@@ -18,10 +18,10 @@
  *  
  * 
  * serviceName ,-i logInterval(ms), -f sample are Mandatory
- * Duration ( -s FromDate , -e ToDate ) paremeters are optional
+ * Duration ( -s FromDate , -e ToDate ) parameters are optional
  * 
- * If Duration is not set, it would work persistence Mode
- * If Duration is set correctly, it would work non-persistence Mode
+ * If Duration is not set, it would work persistence Mode ( Log Generator would continuously generate logMessage from currentTime ) 
+ * If Duration is set correctly, it would work non-persistence Mode ( Log Generator would generate logMessage for duration the user set )
  *  
  * 
  * Available serviceName :
@@ -78,18 +78,14 @@ function printUsage(){
 	console.log("serviceName ,-i logInterval(ms), -f sample are Mandatory");
 	console.log("Duration ( -s FromDate , -e ToDate ) paremeters are optional");
 	console.log("");
-	console.log("If Duration is not set, it would work persistence Mode");
-	console.log("If Duration is set correctly, it would work non-persistence Mode");
-	console.log(" ");
-	console.log("");
+	console.log("If Duration is not set, it would work persistence Mode ( Log Generator would continuously generate logMessage from currentTime ) ");
+	console.log("If Duration is set correctly, it would work non-persistence Mode ( Log Generator would generate logMessage for duration the user set )\n\n");
 	console.log("Available serviceName :");
 	console.log("	1) sdpRestLog");
-	console.log("	2) sdpMenuLog");
-	console.log("");
+	console.log("	2) sdpMenuLog\n");
 	console.log("Log Generator generate logMessages and print the messages to the stdout");
-	console.log("If LogMessages are written on the file system, Unix stdout/pipeline command would be helpful. ");
-	console.log("");
-	console.log("shell script example : ");
+	console.log("If LogMessages are written on the file system, Unix stdout/pipeline command would be helpful.\n");
+	console.log("shell script example : \n");
 	console.log("");
 	console.log(" #!/bin/sh");
 	console.log(" SERVICENAME=sdpRestLog");
@@ -98,11 +94,11 @@ function printUsage(){
 	console.log(" TODATE=2014-07-02");
 	console.log(" SAMPLE=sample.json");
 	console.log(" DESTPATH=.");
-	console.log(" ");
+	console.log("");
 	console.log(" FROMTIME=$(date +%Y%m%d -d $FROMDATE)");
 	console.log(" TOTIME=$(date +%Y%m%d -d $TODATE)");
 	console.log(" DURATION=`expr $TOTIME - $FROMTIME`");
-	console.log(" ");
+	console.log("");
 	console.log(" for((i=0 ; i < $DURATION; i++)); do");
 	console.log(" 	echo jihoon $i");
 	console.log("     CURRENTDATE=`expr $FROMTIME - $i`");
@@ -110,6 +106,7 @@ function printUsage(){
 	console.log("     echo $FILENAME");
 	console.log("     ./node LogGenerator.js $SERVICENAME -f SAMPLE -i $INTERVAL -s $FROMDATE -e $TODATE  > $DESTPATH/$FILENAME && tar zcf $DESTPATH/$FILENAME.tar.gz $DESTPATH/$FILENAME");
 	console.log(" done");
+	console.log("");
 	console.log("===================================================");
 }
 
