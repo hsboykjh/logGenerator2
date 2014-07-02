@@ -1,20 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 SERVICENAME=sdpRestLog
 INTERVAL=1000
 FROMDATE=2014-07-01
 TODATE=2014-07-02
-SAMPLE=sample.json
-DESTPATH=../logs
+SAMPLE=./src/sdpRestlog.json
+DESTPATH=./logs
 
 FROMTIME=$(date +%Y%m%d -d $FROMDATE)
 TOTIME=$(date +%Y%m%d -d $TODATE)
 DURATION=`expr $TOTIME - $FROMTIME`
-
+echo $DURATION
 mkdir $DESTPATH
 
-for((i=0 ; i < $DURATION; i++) do
+for((i=0 ; i < $DURATION; i++))
+do
     CURRENTDATE=`expr $FROMTIME - $i`
     FILENAME=$SERVICENAME$CURRENTDATE.log
     echo $FILENAME
-    ./node LogGenerator.js $SERVICENAME -f SAMPLE -i $INTERVAL -s $FROMDATE -e $TODATE  > $DESTPATH/$FILENAME && tar zcf $DESTPATH/$FILENAME.tar.gz $DESTPATH/$FILENAME
+    node ./src/LogGenerator.js $SERVICENAME -f $SAMPLE -i $INTERVAL -s $FROMDATE -e $TODATE  > $DESTPATH/$FILENAME && tar zcf $DESTPATH/$FILENAME.tar.gz $DESTPATH/$FILENAME
 done
+
